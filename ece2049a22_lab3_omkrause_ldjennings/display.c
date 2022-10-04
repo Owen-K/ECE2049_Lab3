@@ -9,7 +9,7 @@
 
 
 void displayTime(long unsigned int inTime) {
-    unsigned int remainder = 0;
+    unsigned long int remainder = 0;
     unsigned char month[3];
     month[0] = 'e';
     month[1] = 'r';
@@ -80,20 +80,29 @@ void displayTime(long unsigned int inTime) {
         day -= 334;
     }
 
-    hour = remainder / 6300;
+    hour = remainder / 3600;
     remainder = remainder - hour * 3600;
     min = remainder / 60;
     sec = remainder - min * 60;
 
     unsigned char dayDisp[2];
-    dayDisp[0] = day / 10;
-    dayDisp[1] = day % 10;
+    dayDisp[0] = day / 10 + '0';
+    dayDisp[1] = day % 10 + '0';
 
     unsigned char hourDisp[2];
-    hourDisp[0] = hour / 10;
-    hourDisp[1] = hour % 10;
+    hourDisp[0] = hour / 10 + '0';
+    hourDisp[1] = hour % 10 + '0';
+
+    unsigned char minDisp[2];
+    minDisp[0] = min / 10 + '0';
+    minDisp[1] = min % 10 + '0';
+
+    unsigned char secDisp[2];
+    secDisp[0] = sec / 10 + '0';
+    secDisp[1] = sec % 10 + '0';
 
     unsigned char dateDisplay[7];
+    unsigned char timeDisplay[9];
 
     dateDisplay[0] = month[0];
     dateDisplay[1] = month[1];
@@ -103,10 +112,22 @@ void displayTime(long unsigned int inTime) {
     dateDisplay[5] = dayDisp[1];
     dateDisplay[6] = 0x00; //null terminator
 
+    timeDisplay[0] = hourDisp[0];
+    timeDisplay[1] = hourDisp[1];
+    timeDisplay[2] = ':';
+    timeDisplay[3] = minDisp[0];
+    timeDisplay[4] = minDisp[1];
+    timeDisplay[5] = ':';
+    timeDisplay[6] = secDisp[0];
+    timeDisplay[7] = secDisp[1];
+    timeDisplay[8] = 0x00;
+
+
     //unsigned char display[] = month[0] + month[1] + month[2] + ' ' + dayDisp[0] + ' ' + hourDisp[0] + '\0';
 
     Graphics_clearDisplay(&g_sContext);
-    Graphics_drawStringCentered(&g_sContext, dateDisplay, AUTO_STRING_LENGTH, 48, 48, TRANSPARENT_TEXT);
+    Graphics_drawStringCentered(&g_sContext, dateDisplay, AUTO_STRING_LENGTH, 48, 44, TRANSPARENT_TEXT);
+    Graphics_drawStringCentered(&g_sContext, timeDisplay, AUTO_STRING_LENGTH, 48, 52, TRANSPARENT_TEXT);
     Graphics_flushBuffer(&g_sContext);
 }
 
