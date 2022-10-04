@@ -1,6 +1,7 @@
 #include <msp430.h> 
 #include "peripherals.h"
 #include "display.h"
+#include "timer.h"
 
 
 /**
