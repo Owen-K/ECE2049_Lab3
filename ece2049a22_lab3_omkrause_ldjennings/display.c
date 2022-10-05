@@ -125,7 +125,6 @@ void displayTime(long unsigned int inTime) {
 
     //unsigned char display[] = month[0] + month[1] + month[2] + ' ' + dayDisp[0] + ' ' + hourDisp[0] + '\0';
 
-    Graphics_clearDisplay(&g_sContext);
     Graphics_drawStringCentered(&g_sContext, dateDisplay, AUTO_STRING_LENGTH, 48, 44, TRANSPARENT_TEXT);
     Graphics_drawStringCentered(&g_sContext, timeDisplay, AUTO_STRING_LENGTH, 48, 52, TRANSPARENT_TEXT);
     Graphics_flushBuffer(&g_sContext);
@@ -167,7 +166,6 @@ void displayTemp(float inAvgTempC) {
     displayTempF[5] = 'F';
     displayTempF[6] = 0x00;
 
-    Graphics_clearDisplay(&g_sContext);
     Graphics_drawStringCentered(&g_sContext, displayTempC, AUTO_STRING_LENGTH, 48, 60, TRANSPARENT_TEXT);
     Graphics_drawStringCentered(&g_sContext, displayTempF, AUTO_STRING_LENGTH, 48, 68, TRANSPARENT_TEXT);
     Graphics_flushBuffer(&g_sContext);

@@ -20,3 +20,10 @@ void setupTimerA2(void)
 __interrupt void TIMER2_A0_ISR (void) {
     timer_cnt++;
 }
+
+void stopTimerA2() {
+    TA2CCTL0 = 0;
+}
+void startTimerA2() {
+    TA2CCTL0 = CCIE;
+}
