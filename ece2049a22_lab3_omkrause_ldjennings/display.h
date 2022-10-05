@@ -9,6 +9,7 @@
 #define DISPLAY_H_
 
 #include <msp430.h>
+#include <math.h>
 #include "peripherals.h"
 
 

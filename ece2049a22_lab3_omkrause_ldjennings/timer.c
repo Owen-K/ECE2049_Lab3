@@ -9,7 +9,7 @@
 
 unsigned long int timer_cnt = 0;
 
-void runtimerA2(void)
+void setupTimerA2(void)
 {
   TA2CTL = TASSEL_1 | MC_1 | ID_0;
   TA2CCR0 = 32767;

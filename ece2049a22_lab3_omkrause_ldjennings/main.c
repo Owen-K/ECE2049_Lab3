@@ -16,7 +16,12 @@ int main(void)
 	
 	configDisplay();
 
-	displayTime(7243463);
+	setupTimerA2();
+
+	displayTemp(30);
+
+	while(1){
+	}
 
 	return 0;
 }

@@ -132,5 +132,43 @@ void displayTime(long unsigned int inTime) {
 }
 
 void displayTemp(float inAvgTempC) {
+    float inAvgTempF = (inAvgTempC * 1.8F) + 32;
 
+    unsigned char displayTempC[7];
+    unsigned char displayTempF[7];
+
+    if (inAvgTempC < 100)
+        displayTempC[0] = ' ';
+    else
+        displayTempC[0] = (floor)(inAvgTempC / 100) + '0';
+    displayTempC[1] = (floor)((fmod(inAvgTempC, 100)) / 10) + '0';
+    displayTempC[2] = (floor)(fmod(inAvgTempC, 10)) + '0';
+    displayTempC[3] = '.';
+    displayTempC[4] = (floor)(fmod((inAvgTempC * 10), 10)) + '0';
+    displayTempC[5] = 'C';
+    displayTempC[6] = 0x00;
+
+    if (inAvgTempF < 100)
+        {
+            if (inAvgTempF < 0)
+            {
+                displayTempF[0] = '-';
+                inAvgTempF *= -1; //set to be positive, to make sure ASCII conversion math works
+            }
+            else
+                displayTempF[0] = ' ';
+        }
+        else
+            displayTempF[0] = (floor)(inAvgTempF / 100) + '0';
+    displayTempF[1] = (floor)((fmod(inAvgTempF, 100)) / 10) + '0';
+    displayTempF[2] = (floor)(fmod(inAvgTempF, 10)) + '0';
+    displayTempF[3] = '.';
+    displayTempF[4] = (floor)(fmod((inAvgTempF * 10), 10)) + '0';
+    displayTempF[5] = 'F';
+    displayTempF[6] = 0x00;
+
+    Graphics_clearDisplay(&g_sContext);
+    Graphics_drawStringCentered(&g_sContext, displayTempC, AUTO_STRING_LENGTH, 48, 60, TRANSPARENT_TEXT);
+    Graphics_drawStringCentered(&g_sContext, displayTempF, AUTO_STRING_LENGTH, 48, 68, TRANSPARENT_TEXT);
+    Graphics_flushBuffer(&g_sContext);
 }
