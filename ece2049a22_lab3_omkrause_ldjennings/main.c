@@ -18,9 +18,15 @@ int main(void)
 
 	setupTimerA2();
 
-	displayTemp(30);
-
+	setupADC12();
+	unsigned int prevCount = 0;
 	while(1){
+	    if(timer_cnt > prevCount){
+	        prevCount++;
+	        float temp = getTempC();
+	        displayTemp(temp);
+	    }
+
 	}
 
 	return 0;

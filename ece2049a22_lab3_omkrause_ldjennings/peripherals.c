@@ -15,12 +15,15 @@
  */
 
 #include "peripherals.h"
+#include <msp430.h>
 
+#define CALADC12_15V_30C  *((unsigned int *)0x1A1A)
+#define CALADC12_15V_85C  *((unsigned int *)0x1A1C)
 
 // Globals
 tContext g_sContext;    // user defined type used by graphics library
 
-void setUpADC12(){
+void setupADC12(){
     REFCTL0 &= ~REFMSTR;    // Reset REFMSTR to hand over control of
                               // internal reference voltages to
                // ADC12_A control registers
@@ -37,9 +40,11 @@ void setUpADC12(){
 }
 
 float getTempC(){
-    bits30 = CALADC12_15V_30C;
-    bits85 = CALADC12_15V_85C;
-    degC_per_bit = ((float)(85.0 - 30.0))/((float)(bits85-bits30));
+    unsigned int bits30 = CALADC12_15V_30C;
+    unsigned int bits85 = CALADC12_15V_85C;
+    volatile float degC_per_bit = ((float)(85.0 - 30.0))/((float)(bits85-bits30));
+    volatile float temperatureDegC;
+    unsigned int in_temp;
 
     ADC12CTL0 &= ~ADC12SC;  // clear the start bit
     ADC12CTL0 |= ADC12SC;       // Sampling and conversion start
