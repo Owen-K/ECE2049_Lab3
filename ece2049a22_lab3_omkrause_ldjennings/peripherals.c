@@ -23,7 +23,7 @@
 // Globals
 tContext g_sContext;    // user defined type used by graphics library
 
-void setupADC12(){
+void setupADC12Temp(){
     REFCTL0 &= ~REFMSTR;    // Reset REFMSTR to hand over control of
                               // internal reference voltages to
                // ADC12_A control registers
@@ -59,6 +59,41 @@ float getTempC(){
     // formula.
     temperatureDegC = (float)((long)in_temp - CALADC12_15V_30C) * degC_per_bit + 30.0;
 }
+
+void setupADC12Scroll(void){
+    // Configure P8.0 as digital IO output and set it to 1
+    // This supplied 3.3 volts across scroll wheel potentiometer
+    // See schematic at end or MSP-EXP430F5529 board users guide
+    P8SEL &= ~BIT0;
+    P8DIR |= BIT0;
+    P8OUT |= BIT0;
+
+    P6SEL |= BIT0;
+    REFCTL0 &= ~REFMSTR;                      // Reset REFMSTR to hand over control of
+                                              // internal reference voltages to
+                                              // ADC12_A control registers
+    ADC12CTL0 = ADC12SHT0_9 | ADC12ON;
+
+    ADC12CTL1 = ADC12SHP;                     // Enable sample timer
+
+    // Use ADC12MEM0 register for conversion results
+    ADC12MCTL0 = ADC12SREF_0 + ADC12INCH_0;   // ADC12INCH5 = Scroll wheel = A5
+                                              // ACD12SREF_0 = Vref+ = Vcc
+    __delay_cycles(100);                      // delay to allow Ref to settle
+    ADC12CTL0 |= ADC12ENC;     // Enable conversion
+}
+unsigned int getScrollVal(void){
+    unsigned int in_value;
+    ADC12CTL0 &= ~ADC12SC;  // clear the start bit
+    ADC12CTL0 |= ADC12SC;               // Sampling and conversion start
+                                        // Single conversion (single channel)
+                                        // Poll busy bit waiting for conversion to complete
+    while (ADC12CTL1 & ADC12BUSY)
+        __no_operation();
+    in_value = ADC12MEM0 & 0x0FFF;               // Read results if conversion done
+    return in_value;
+}
+
 void initLeds(void)
 {
     // Configure LEDs as outputs, initialize to logic low (off)

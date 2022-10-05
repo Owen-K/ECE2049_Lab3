@@ -31,22 +31,22 @@ int main(void)
 
 	setupTimerA2();
 
-	setupADC12();
-	CurrTemp = getTempC();
+	setupADC12Scroll();
+	/*CurrTemp = getTempC();
 	int i;
 	for(i = 0; i < TEMP_ARRAY_LENGTH; i++){
 	    TempsC[i] = CurrTemp;
-	}
+	}*/
 
 	unsigned int prevCount = 0;
 	while(1){
-	    if(timer_cnt > prevCount){
+	    /*if(timer_cnt > prevCount){
 	        prevCount++;
 	        CurrTemp = getTempC();
 	        TempsC[timer_cnt % 36] = CurrTemp;
 	        displayTemp(averageArray(TempsC));
-	    }
-
+	    }*/
+	    displayTime((unsigned long) getScrollVal());
 	}
 
 	return 0;
