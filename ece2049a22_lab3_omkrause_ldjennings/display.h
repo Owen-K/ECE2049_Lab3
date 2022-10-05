@@ -13,7 +13,7 @@
 
 
 void displayTime(long unsigned int inTime);
-//void displayTemp(float inAvgTempC);
+void displayTemp(float inAvgTempC);
 
 
 #endif /* DISPLAY_H_ */

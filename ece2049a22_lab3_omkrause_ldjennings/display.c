@@ -14,7 +14,7 @@ void displayTime(long unsigned int inTime) {
     month[0] = 'e';
     month[1] = 'r';
     month[2] = 'r';
-    unsigned int day, hour, min, sec;
+    unsigned long int day, hour, min, sec;
 
     day = inTime / 86400 + 1;
     remainder = inTime - (day - 1) * 86400;
@@ -131,4 +131,6 @@ void displayTime(long unsigned int inTime) {
     Graphics_flushBuffer(&g_sContext);
 }
 
+void displayTemp(float inAvgTempC) {
 
+}
